@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SaveMeds"
+description = "A single-page healthcare dashboard that decodes prescriptions, audits medication costs and duplicate salts, supports verified doctor reviews, and compares Jan Aushadhi generic prices under the SaveMeds brand."
+version = "1.0.0"
+id = "artifacts/pharmatrust"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25420
+
+[services.development]
+run = "pnpm --filter @workspace/pharmatrust run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pharmatrust", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pharmatrust/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25420"
+BASE_PATH = "/"

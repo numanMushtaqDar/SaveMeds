@@ -1,0 +1,3 @@
+salt,category,coverage,brand,manufacturer,mrp,isGeneric,source,capturedOn
+# Example only - replace with verified rows. Each line is one brand from one manufacturer.
+Amoxicillin 500 mg,Antibiotic,Antibacterial,EXAMPLE BRAND,EXAMPLE MANUFACTURER LTD,100,false,Manufacturer price list (example),2026-11-12

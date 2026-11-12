@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /audit:
+    post:
+      operationId: auditPrescription
+      tags: [audit]
+      summary: Analyze extracted prescription text with Groq
+      description: Returns a concise clinical pharmacology audit for extracted prescription items.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuditInput"
+      responses:
+        "200":
+          description: Prescription audit result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditResponse"
+        "400":
+          description: Invalid extracted prescription text
+        "503":
+          description: Groq inference is unavailable
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AuditInput:
+      type: object
+      properties:
+        extractedText:
+          type: string
+          minLength: 1
+          maxLength: 12000
+      required:
+        - extractedText
+    AuditResponse:
+      type: object
+      properties:
+        text:
+          type: string
+      required:
+        - text
+
